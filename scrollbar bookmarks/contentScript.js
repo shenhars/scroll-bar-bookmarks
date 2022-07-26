@@ -38,16 +38,34 @@ document.addEventListener("keydown", (event) => {
     console.log("hi")
     if (event.key == "ArrowDown" && breakPoints.length > 0) {
         console.log("here");
-        let currentPosition_y = document.body.scrollHeight;
-        let jumpTo = "";
+        let currentPosition_y = window.scrollY;
+        let jumpTo = document.body.scrollHeight;
         for (let i = 0; i < breakPoints.length; i++) {
-            if ((jumpTo == "" && breakPoints[i].getBoundingClientRect().top - currentPosition_y > 0) ||
-            (jumpTo > breakPoints[i].getBoundingClientRect().top - currentPosition_y > 0)) {
-                jumpTo = breakPoints[i].getBoundingClientRect().top;
-                break;
+            let breakPointRelativePosition = document.body.scrollHeight / 
+            document.getElementsByClassName("scrolldiv")[0].scrollHeight * breakPoints[i].getBoundingClientRect().top;
+            if (breakPointRelativePosition - currentPosition_y > 0 &&
+            jumpTo > breakPointRelativePosition - currentPosition_y) {
+                jumpTo = breakPointRelativePosition;
             }
         }
-        let a = document.body.scrollHeight / document.getElementsByClassName("scrolldiv")[0].scrollHeight * jumpTo;
-        window.scroll(0, a);
+        window.scroll(0, jumpTo);
+    }
+
+    if (event.key == "ArrowUp" && breakPoints.length > 0) {
+        console.log("where?");
+        let currentPosition_y = window.scrollY;
+        let jumpTo = document.body.scrollHeight;
+        for (let i = 0; i < breakPoints.length; i++) {
+            let breakPointRelativePosition = document.body.scrollHeight / 
+            document.getElementsByClassName("scrolldiv")[0].scrollHeight * breakPoints[i].getBoundingClientRect().top;
+            if (currentPosition_y - breakPointRelativePosition > 0 &&
+            jumpTo > currentPosition_y - breakPointRelativePosition) {
+                jumpTo = breakPointRelativePosition;
+            }
+        }
+        if (jumpTo == document.body.scrollHeight) {
+            jumpTo = 0;
+        }
+        window.scroll(0, jumpTo);
     }
 })
