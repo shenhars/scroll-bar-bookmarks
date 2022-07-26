@@ -8,9 +8,5 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             target: { tabId: tabId },
             files: ["contentScript.js"]
         })
-        // chrome.tabs.sendMessage(tabId, {
-        //     type: "NEW",
-        //     fileId: urlParameters
-        //})
     }
 })
